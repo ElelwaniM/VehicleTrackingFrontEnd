@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Registration with Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    
+    <style>
+        #map {
+            height: 1000px;
+        }
+        body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #050505;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: #ffcc00;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Vehicle Location</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="main.html">Home</a></li>
+            <li><a href="vehicleinfo.html">Vehicle info</a></li>
+            <li><a href="maps.html">View Vehicle location</a>
+            <li><a href="report.html">Reports</a></li>
+           </li>
+        </ul>
+    </nav>
+
+      
+    <main>
+        <section id="map"></section>
+        <section class="vehicle-registration">
+            <!-- Your vehicle registration form goes here -->
+        </section>
+    </main>
+    <footer>
+        <p>&copy; Elelwani's Vehicle Tracking System</p>
+    </footer>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map with Joburg's coordinates
+        const map = L.map('map').setView([-26.2041, 28.0473], 6); // Set Joburg's coordinates and zoom level
+
+        // Add a tile layer (you can use any tile provider)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Add markers for Johannesburg, Pretoria, and Durban with names shown on hover
+        const vehicleMarkers = [
+            L.marker([-26.2041, 28.0473]).bindTooltip('"Felix 456 GP" is in Johannesburg').addTo(map), // Johannesburg
+            L.marker([-25.7461, 28.1881]).bindTooltip('"Mushavhi 789 "L" is in Pretoria').addTo(map), // Pretoria
+            L.marker([-29.8587, 31.0218]).bindTooltip('"Londani 458 NC" is in Durban').addTo(map),
+            L.marker([ -23.6883, 30.2255]).bindTooltip('"Rendy 045 GP" is in Ha Mashua').addTo(map),// HaMashua
+            L.marker([ -33.9249,  18.4241]).bindTooltip('"Thendo 478 GP" is Cape Town').addTo(map)// Cape town
+        ];
+
+        // Update marker positions (this is just for demonstration, replace with actual data)
+        function updateMarkers(vehicleLocations) {
+            vehicleMarkers.forEach((marker, index) => {
+                marker.setLatLng(vehicleLocations[index]);
+            });
+        }
+    </script>
+</body>
+</html>

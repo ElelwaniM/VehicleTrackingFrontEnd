@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Reports</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif; /* Use a cool font like Roboto */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Vehicle Reports</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="main.html">Home</a></li>
+            <li><a href="vehicleinfo.html">Vehicle info</a></li>
+            <li><a href="maps.html">View Vehicle location</a>            
+            <li><a href="report.html">Reports</a></li>
+            
+        </ul>
+    </nav>
+    <main>      
+        <section class="report-details">
+            <div class="text-container">
+                <p class="intro-text">The following charts provide an overview of key metrics collected from vehicle tracking data</p>               
+            </div>
+            <div class="chart-container">
+                <canvas id="travelTimeChart" width="400" height="200"></canvas>
+                <canvas id="gasUsedChart" width="400" height="200"></canvas>
+                <canvas id="tollGatesChart" width="400" height="200"></canvas>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; Elelwani's Vehicle Tracking System</p>
+    </footer>
+
+    <script>
+        const travelTimeData = {
+            labels: ['Felix 456 GP', 'Mushavhi 789 L', 'Londani 458 NC','Rendy 045 GP','Thendo 478 GP'],
+            datasets: [{
+                label: 'Travel Time (hrs)',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1,
+                data: [10, 8, 12,4,9],
+            }]
+        };
+
+        const gasUsedData = {
+            labels: ['Felix 456 GP', 'Mushavhi 789 L', 'Londani 458 NC','Rendy 045 GP','Thendo 478 GP'],
+            datasets: [{
+                label: 'Total Gas Used (liters)',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1,
+                data: [50, 40, 60,20,30],
+            }]
+        };
+
+        const tollGatesData = {
+            labels: ['Felix 456 GP', 'Mushavhi 789 L', 'Londani 458 NC','Rendy 045 GP','Thendo 478 GP'],
+            datasets: [{
+                label: 'Toll Gates Paid',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                data: [5, 3, 7,2,4],
+            }]
+        };
+
+        const travelTimeChart = new Chart(document.getElementById('travelTimeChart'), {
+            type: 'bar',
+            data: travelTimeData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        const gasUsedChart = new Chart(document.getElementById('gasUsedChart'), {
+            type: 'bar',
+            data: gasUsedData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        const tollGatesChart = new Chart(document.getElementById('tollGatesChart'), {
+            type: 'bar',
+            data: tollGatesData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

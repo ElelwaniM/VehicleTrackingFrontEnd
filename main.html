@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Tracking System</title>
+    <link rel="stylesheet" href="style.css">    
+</head>
+<body>
+    <header>
+        <h1>Vehicle Tracking System</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="main.html">Home</a></li>
+            <li><a href="vehicleinfo.html">Vehicle info</a></li>
+            <li><a href="maps.html">View Vehicle location</a>
+            <li><a href="report.html">Reports</a></li>
+           </li>
+        </ul>
+    </nav>
+    <main>       
+        <section class="vehicle-registration">
+            <h2>Register New Vehicle</h2>
+            <form id="vehicleForm">
+                <label for="vehicleId">Vehicle ID:</label>
+                <input type="text" id="vehicleId" name="vehicleId" required><br>
+    
+                <label for="vehicleName">Vehicle Name:</label>
+                <input type="text" id="vehicleName" name="vehicleName" required><br>
+    
+                <label for="vehicleType">Vehicle Type:</label>
+                <select id="vehicleType" name="vehicleType">
+                    <option value="Car">Car</option>
+                    <option value="Truck">Truck</option>
+                    <option value="Motorcycle">Motorcycle</option>
+                </select><br>
+    
+                <label for="vehicleLocation">Initial Location:</label>
+                <input type="text" id="vehicleLocation" name="vehicleLocation" required><br>
+    
+                <button type="submit">Register Vehicle</button>
+            </form>
+        </section>
+               <section class="vehicle-list">
+            <h2>Vehicle List</h2>
+            <ul>           
+                <!-- More vehicles will be dynamically loaded here -->                
+            </ul>
+        </section></br>
+        
+    </main>
+   
+    <footer>
+        <p>&copy; Elelwani's Vehicle Tracking System</p>
+    </footer>
+   
+</body>
+</html>
+
+
+<script>
+    //const formE1 = document.getElementById('vehicleForm');
+
+    // Function to fetch and display the list of cars
+function loadVehicleList() {
+    fetch('http://localhost:8090/getCars')
+        .then(response => response.json())
+        .then(data => {
+            const vehicleList = document.querySelector('.vehicle-list ul');
+            // Clear existing list items
+            vehicleList.innerHTML = '';
+
+            // Loop through the cars data and create list items
+            data.forEach(car => {
+    const newVehicle = document.createElement('li');
+    newVehicle.textContent = `Vehicle ID: ${car.vehicleId}, Name: ${car.vehicleName}`;
+    
+    vehicleList.appendChild(newVehicle);
+});
+
+        })
+        .catch(error => {
+            console.error('Error fetching cars:', error);
+        });
+}
+
+// Call the function to load the vehicle list when the page is opened
+document.addEventListener('DOMContentLoaded', () => {
+    loadVehicleList();
+});
+
+// Add event listener for vehicle registration form submission
+const formE1 = document.getElementById('vehicleForm');
+formE1.addEventListener('submit', event => {
+    event.preventDefault(); // Prevent the default form submission
+
+    // Create a new FormData object
+    const formData = new FormData(formE1);
+    const data = Object.fromEntries(formData);
+
+    // Send HTTP POST request to the backend to register the vehicle
+    fetch('http://localhost:8090/registerVehicle', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Vehicle registered:', data);
+        // Reload the vehicle list after registering the new vehicle
+        loadVehicleList();
+    })
+    .catch(error => {
+        console.error('Error registering vehicle:', error);
+    });
+});
+
+    // Fetch the list of cars from the backend
+
+
+</script>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Information</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Vehicle Information</h1>        
+    </header>
+    <nav>
+        <ul>
+            <li><a href="main.html">Home</a></li>
+            <li><a href="vehicleinfo.html">Vehicle info</a></li>
+            <li><a href="maps.html">View Vehicle location</a></li>
+            <li><a href="report.html">Reports</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section class="vehicle-list">
+            <h2>Vehicle Details</h2>
+            <table id="vehicleTable">
+                <thead>
+                    <tr>
+                        <th>Vehicle ID</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Initial Location</th>
+                        <th>Date Registered</th>
+                        <th>Action</th> <!-- New column for delete button -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Vehicle details will be dynamically loaded here -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; Elelwani's Vehicle Tracking System</p>
+    </footer>
+</body>
+</html>
+
+<script>
+    // Function to fetch and display vehicle details in table format
+    function loadVehicleList() {
+        fetch('http://localhost:8090/getCars')
+            .then(response => response.json())
+            .then(data => {
+                const vehicleTable = document.getElementById('vehicleTable');
+                const tbody = vehicleTable.querySelector('tbody');
+                tbody.innerHTML = ''; // Clear existing table rows
+
+                // Loop through the cars data and create table rows
+                data.forEach(car => {
+                    const newRow = tbody.insertRow();
+                    newRow.innerHTML = `
+                        <td>${car.vehicleId}</td>
+                        <td>${car.vehicleName}</td>
+                        <td>${car.vehicleType}</td>
+                        <td>${car.vehicleLocation}</td>
+                        <td>${car.registrationDate}</td>
+                        <td><button onclick="deleteVehicle('${car.vehicleId}')">Delete</button>
+                        <button onclick="editVehicle('${car.vehicleId}')">Edit</button></td> <!-- Edit button -->
+                    `;
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching cars:', error);
+            });
+    }
+
+    // Function to delete a vehicle
+    function deleteVehicle(vehicleId) {
+        fetch(`http://localhost:8090/deleteVehicle/${vehicleId}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Reload the vehicle list after deletion
+            loadVehicleList();
+            console.log(data.message);
+        })
+        .catch(error => {
+            console.error('Error deleting vehicle:', error);
+        });
+    }
+
+    // Call the function to load the vehicle list when the page is opened
+    document.addEventListener('DOMContentLoaded', () => {
+        loadVehicleList();
+    });
+</script>
