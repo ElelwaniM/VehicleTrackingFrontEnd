@@ -17,6 +17,7 @@
             <li><a href="driver.html">Driver Info</a></li>
             <li><a href="maps.html">View Vehicle location</a>
             <li><a href="report.html">Reports</a></li>
+            <li class="nav-item-right"><button onclick="logout()" class="logout-btn">Logout</button></li>
            </li>
         </ul>
     </nav>
@@ -65,7 +66,7 @@
 
     // Function to fetch and display the list of cars
 function loadVehicleList() {
-    fetch('http://localhost:8090/getCars')
+    fetch('http://localhost:2116/getCars')
         .then(response => response.json())
         .then(data => {
             const vehicleList = document.querySelector('.vehicle-list ul');
@@ -101,7 +102,7 @@ formE1.addEventListener('submit', event => {
     const data = Object.fromEntries(formData);
 
     // Send HTTP POST request to the backend to register the vehicle
-    fetch('http://localhost:8090/registerVehicle', {
+    fetch('http://localhost:2116/registerVehicle', {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
@@ -119,7 +120,8 @@ formE1.addEventListener('submit', event => {
     });
 });
 
-    // Fetch the list of cars from the backend
-
+function logout() {
+            window.location.href = 'login.html';
+        }
 
 </script>

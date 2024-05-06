@@ -60,6 +60,7 @@ nav a:hover {
             <li><a href="driver.html">Driver Info</a></li>
             <li><a href="maps.html">View Vehicle location</a>
             <li><a href="report.html">Reports</a></li>
+            <li class="nav-item-right"><button onclick="logout()" class="logout-btn">Logout</button></li>
            </li>
         </ul>
     </nav>
@@ -98,6 +99,10 @@ nav a:hover {
             vehicleMarkers.forEach((marker, index) => {
                 marker.setLatLng(vehicleLocations[index]);
             });
+        }
+
+        function logout() {
+            window.location.href = 'login.html';
         }
     </script>
 </body>
